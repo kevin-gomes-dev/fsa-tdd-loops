@@ -37,8 +37,14 @@ console.log(echo("test", 1));
  */
 export function echoWithSpace(word, n) {
   let result = "";
+  if (word === "") {
+    return "";
+  }
   for (let i = 0; i < n; i++) {
-    result += word + " ";
+    result += word;
+    if (n - i !== 1) {
+      result += " ";
+    }
   }
   return result;
 }
@@ -191,14 +197,12 @@ console.log(getGrowthTime(5, 78));
 export function getCompoundTime(start, rate, target) {
   if (start <= 0 || rate <= 0) return;
   // at 100, add 100 * 0.1 (10%) which is 110, then add 110 * 0.1 which is 11, 121 + 12.1, 132.1 + 13.21...
-  let result = start;
-  let i = 0;
+  let years = 0;
   // While the result is less than the target, add to it the value of what it is * the rate
-  while (result < target) {
-    result *= 1 + rate;
-    i += 1;
+  for (let result = start; result < target; result *= 1 + rate) {
+    years += 1;
   }
-  return i;
+  return years;
 }
 // What would be cooler is a function that gives you your amount in x years instead of years for x target
 console.log("----- getCompoundTime -----");
@@ -229,6 +233,7 @@ console.log(getCompoundTime(30000, 0.04, 50000));
  * moveWater(7, 3); // 1
  */
 export function moveWater(colander, bucket) {
+  if (colander <= 0) return;
   // 5 and 18, first trip give 5, then next trip give 4 ... until 1, then repeat 1. Return trip count. Way to shorten code?
   let tripCount = 0;
   let currentBucketCups = 0;
